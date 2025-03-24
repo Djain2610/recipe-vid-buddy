@@ -42,7 +42,7 @@ const Index: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="glass py-8 sticky top-0 z-10 border-b">
+      <header className="glass py-8 border-b">
         <div className="container max-w-7xl mx-auto px-4">
           <div className="flex justify-between items-center mb-8">
             <Link to="/" className="text-2xl font-semibold">
