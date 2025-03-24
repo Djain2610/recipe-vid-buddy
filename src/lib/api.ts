@@ -1,5 +1,5 @@
 
-import { Recipe, SearchParams, VideoSearchResponse } from "./types";
+import { Recipe, SearchParams, VideoSearchResponse, DietaryFilter } from "./types";
 
 const YOUTUBE_API_KEY = "AIzaSyDhMzDrv5zJk2nszdtiGyu3eva604iQMbc";
 const YOUTUBE_SEARCH_URL = "https://www.googleapis.com/youtube/v3/search";
@@ -9,7 +9,7 @@ const SPOONACULAR_RECIPE_INFO_URL = "https://api.spoonacular.com/recipes/{id}/in
 const SPOONACULAR_API_URL = "https://api.spoonacular.com/recipes/findByIngredients";
 const SPOONACULAR_COMPLEX_SEARCH_URL = "https://api.spoonacular.com/recipes/complexSearch";
 
-export const searchRecipesByIngredients = async (ingredients: string, filters: Record<string, boolean>) => {
+export const searchRecipesByIngredients = async (ingredients: string, filters: DietaryFilter) => {
   try {
     // First, get recipes by ingredients
     const ingredientsParams = new URLSearchParams({
@@ -57,7 +57,7 @@ export const searchRecipesByIngredients = async (ingredients: string, filters: R
   }
 };
 
-export const searchRecipesByQuery = async (query: string, filters: Record<string, boolean>) => {
+export const searchRecipesByQuery = async (query: string, filters: DietaryFilter) => {
   try {
     const dietParams = [];
     if (filters.vegetarian) dietParams.push("vegetarian");
