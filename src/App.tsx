@@ -9,8 +9,17 @@ import RecipeDetail from "./pages/RecipeDetail";
 import SavedRecipes from "./pages/SavedRecipes";
 import NotFound from "./pages/NotFound";
 
-const queryClient = new QueryClient();
+// Create a new Query Client
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 60 * 1000, // 1 minute
+      retry: 1,
+    },
+  },
+});
 
+// Main App component with routing configuration
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
