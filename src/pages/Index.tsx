@@ -5,14 +5,16 @@ import RecipeCard from "@/components/RecipeCard";
 import { Recipe, SearchParams } from "@/lib/types";
 import { searchRecipesByIngredients, searchRecipesByQuery } from "@/lib/api";
 import { Button } from "@/components/ui/button";
-import { BookmarkIcon } from "lucide-react";
+import { BookmarkIcon, LogInIcon, LogOutIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
+import { useAuth } from "@/hooks/use-auth";
 
 const Index: React.FC = () => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [hasSearched, setHasSearched] = useState<boolean>(false);
+  const { isAuthenticated, user, logout } = useAuth();
 
   const handleSearch = async (params: SearchParams) => {
     try {
@@ -40,6 +42,11 @@ const Index: React.FC = () => {
     }
   };
 
+  const handleLogout = () => {
+    logout();
+    toast.success("You have been logged out");
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       <header className="glass py-8 border-b">
@@ -48,12 +55,33 @@ const Index: React.FC = () => {
             <Link to="/" className="text-2xl font-semibold">
               RecipeVid
             </Link>
-            <Link to="/saved">
-              <Button variant="outline" className="flex items-center gap-2">
-                <BookmarkIcon size={16} />
-                Saved Recipes
-              </Button>
-            </Link>
+            <div className="flex items-center gap-2">
+              {isAuthenticated ? (
+                <>
+                  <Link to="/saved">
+                    <Button variant="outline" className="flex items-center gap-2">
+                      <BookmarkIcon size={16} />
+                      Saved Recipes
+                    </Button>
+                  </Link>
+                  <Button 
+                    variant="ghost" 
+                    onClick={handleLogout} 
+                    className="flex items-center gap-2"
+                  >
+                    <LogOutIcon size={16} />
+                    Logout
+                  </Button>
+                </>
+              ) : (
+                <Link to="/login">
+                  <Button variant="outline" className="flex items-center gap-2">
+                    <LogInIcon size={16} />
+                    Login
+                  </Button>
+                </Link>
+              )}
+            </div>
           </div>
           <div className="slide-up" style={{ animationDelay: "0.2s" }}>
             <h1 className="text-4xl md:text-5xl font-bold text-center mb-4">
