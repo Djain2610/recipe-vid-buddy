@@ -53,7 +53,7 @@ const Index: React.FC = () => {
         <div className="container max-w-7xl mx-auto px-4">
           <div className="flex justify-between items-center mb-8">
             <Link to="/" className="text-2xl font-semibold">
-              RecipeVid
+              CHEFBOT
             </Link>
             <div className="flex items-center gap-2">
               {isAuthenticated ? (
@@ -142,7 +142,7 @@ const Index: React.FC = () => {
 
       <footer className="bg-muted py-8">
         <div className="container max-w-7xl mx-auto px-4 text-center text-muted-foreground">
-          <p>RecipeVid © {new Date().getFullYear()} • Find recipes with video tutorials</p>
+          <p>CHEFBOT © {new Date().getFullYear()} • Find recipes with video tutorials</p>
         </div>
       </footer>
     </div>
