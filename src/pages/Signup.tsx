@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { EyeIcon, EyeOffIcon, LockIcon, UserIcon } from "lucide-react";
 import { toast } from "sonner";
+import { useAuth } from "@/hooks/use-auth";
 
 const Signup: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -16,6 +17,7 @@ const Signup: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const { signup } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,19 +40,10 @@ const Signup: React.FC = () => {
     
     try {
       setIsLoading(true);
-      
-      // Simulate signup - in a real app, this would call an authentication API
-      setTimeout(() => {
-        // Mock successful signup
-        localStorage.setItem("isLoggedIn", "true");
-        localStorage.setItem("user", JSON.stringify({ email }));
-        
-        toast.success("Account created successfully!");
-        navigate("/");
-      }, 1500);
-      
+      await signup(email, password);
+      // We won't auto-navigate as the user will need to verify their email
     } catch (error) {
-      toast.error("Signup failed. Please try again.");
+      // Error is handled in the signup function
       console.error("Signup error:", error);
     } finally {
       setIsLoading(false);

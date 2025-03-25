@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { EyeIcon, EyeOffIcon, LockIcon, UserIcon } from "lucide-react";
 import { toast } from "sonner";
+import { useAuth } from "@/hooks/use-auth";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -13,6 +14,7 @@ const Login: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,19 +27,11 @@ const Login: React.FC = () => {
     
     try {
       setIsLoading(true);
-      
-      // Simulate login - in a real app, this would call an authentication API
-      setTimeout(() => {
-        // Mock successful login
-        localStorage.setItem("isLoggedIn", "true");
-        localStorage.setItem("user", JSON.stringify({ email }));
-        
-        toast.success("Login successful!");
-        navigate("/");
-      }, 1500);
-      
+      await login(email, password);
+      toast.success("Login successful!");
+      navigate("/");
     } catch (error) {
-      toast.error("Login failed. Please try again.");
+      // Error is handled in the login function
       console.error("Login error:", error);
     } finally {
       setIsLoading(false);
