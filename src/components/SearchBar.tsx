@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -6,6 +5,7 @@ import { Search } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DietaryFilter, SearchParams } from "@/lib/types";
 import DietaryFilters from "./DietaryFilters";
+import { toast } from "sonner";
 
 interface SearchBarProps {
   onSearch: (params: SearchParams) => void;
@@ -26,6 +26,8 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, isLoading }) => {
     e.preventDefault();
     if (query.trim()) {
       onSearch({ query, searchType, filters });
+    } else {
+      toast.warning("Please enter a search term");
     }
   };
 

@@ -9,6 +9,43 @@ const SPOONACULAR_RECIPE_INFO_URL = "https://api.spoonacular.com/recipes/{id}/in
 const SPOONACULAR_API_URL = "https://api.spoonacular.com/recipes/findByIngredients";
 const SPOONACULAR_COMPLEX_SEARCH_URL = "https://api.spoonacular.com/recipes/complexSearch";
 
+// Sample data to use when the API quota is exceeded
+const sampleRecipes: Recipe[] = [
+  {
+    id: 654959,
+    title: "Pasta With Tuna",
+    image: "https://spoonacular.com/recipeImages/654959-312x231.jpg",
+    vegetarian: false,
+    vegan: false,
+    glutenFree: false,
+    dairyFree: true,
+    readyInMinutes: 45,
+    servings: 4
+  },
+  {
+    id: 511728,
+    title: "Pasta Margherita",
+    image: "https://spoonacular.com/recipeImages/511728-312x231.jpg",
+    vegetarian: true,
+    vegan: false,
+    glutenFree: false,
+    dairyFree: false,
+    readyInMinutes: 30,
+    servings: 4
+  },
+  {
+    id: 654812,
+    title: "Pasta and Seafood",
+    image: "https://spoonacular.com/recipeImages/654812-312x231.jpg",
+    vegetarian: false,
+    vegan: false,
+    glutenFree: false,
+    dairyFree: false,
+    readyInMinutes: 45,
+    servings: 2
+  }
+];
+
 export const searchRecipesByIngredients = async (ingredients: string, filters: DietaryFilter) => {
   try {
     // First, get recipes by ingredients
@@ -23,6 +60,23 @@ export const searchRecipesByIngredients = async (ingredients: string, filters: D
     const response = await fetch(`${SPOONACULAR_API_URL}?${ingredientsParams}`);
     
     if (!response.ok) {
+      // Check if it's a quota exceeded error (402)
+      if (response.status === 402) {
+        console.warn("API quota exceeded, returning fallback data");
+        
+        // Apply filters to sample data if needed
+        if (Object.values(filters).some(Boolean)) {
+          return sampleRecipes.filter(recipe => {
+            return Object.entries(filters).every(([filter, isActive]) => {
+              if (!isActive) return true;
+              return recipe[filter as keyof Recipe] === true;
+            });
+          });
+        }
+        
+        return sampleRecipes;
+      }
+      
       throw new Error(`API error: ${response.status}`);
     }
     
@@ -79,6 +133,23 @@ export const searchRecipesByQuery = async (query: string, filters: DietaryFilter
     const response = await fetch(`${SPOONACULAR_COMPLEX_SEARCH_URL}?${params}`);
     
     if (!response.ok) {
+      // Check if it's a quota exceeded error (402)
+      if (response.status === 402) {
+        console.warn("API quota exceeded, returning fallback data");
+        
+        // Apply filters to sample data if needed
+        if (Object.values(filters).some(Boolean)) {
+          return sampleRecipes.filter(recipe => {
+            return Object.entries(filters).every(([filter, isActive]) => {
+              if (!isActive) return true;
+              return recipe[filter as keyof Recipe] === true;
+            });
+          });
+        }
+        
+        return sampleRecipes;
+      }
+      
       throw new Error(`API error: ${response.status}`);
     }
     
@@ -101,6 +172,28 @@ export const getRecipeInformation = async (id: number): Promise<Recipe> => {
     const response = await fetch(`${url}?${params}`);
     
     if (!response.ok) {
+      // If quota exceeded, return a simple fallback recipe
+      if (response.status === 402) {
+        console.warn("API quota exceeded when fetching recipe details, returning fallback data");
+        // Return the matching sample recipe if available, or a generic one
+        const fallbackRecipe = sampleRecipes.find(r => r.id === id);
+        if (fallbackRecipe) return fallbackRecipe;
+        
+        return {
+          id,
+          title: "Recipe Information Unavailable",
+          image: "https://spoonacular.com/recipeImages/placeholder.jpg",
+          vegetarian: false,
+          vegan: false,
+          glutenFree: false,
+          dairyFree: false,
+          readyInMinutes: 30,
+          servings: 4,
+          summary: "Detailed recipe information is currently unavailable due to API limitations.",
+          instructions: "Please try again later to view the full recipe instructions."
+        };
+      }
+      
       throw new Error(`API error: ${response.status}`);
     }
     

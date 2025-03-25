@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import SearchBar from "@/components/SearchBar";
 import RecipeCard from "@/components/RecipeCard";
@@ -33,6 +32,8 @@ const Index: React.FC = () => {
       
       if (searchResults.length === 0) {
         toast.info("No recipes found. Try different search terms or filters.");
+      } else if (searchResults.some(recipe => recipe.title.includes("Unavailable"))) {
+        toast.warning("We're currently experiencing API limits. Some recipes might show limited information.");
       }
     } catch (error) {
       console.error("Search error:", error);
