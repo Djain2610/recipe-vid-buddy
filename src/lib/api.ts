@@ -4,7 +4,7 @@ import { Recipe, SearchParams, VideoSearchResponse, DietaryFilter } from "./type
 const YOUTUBE_API_KEY = "AIzaSyDhMzDrv5zJk2nszdtiGyu3eva604iQMbc";
 const YOUTUBE_SEARCH_URL = "https://www.googleapis.com/youtube/v3/search";
 
-const SPOONACULAR_API_KEY = "9f962d1da9064121bc32d4ea5a887198";
+const SPOONACULAR_API_KEY = "73b7fcb10622451ea61923218b88252e";
 const SPOONACULAR_RECIPE_INFO_URL = "https://api.spoonacular.com/recipes/{id}/information";
 const SPOONACULAR_API_URL = "https://api.spoonacular.com/recipes/findByIngredients";
 const SPOONACULAR_COMPLEX_SEARCH_URL = "https://api.spoonacular.com/recipes/complexSearch";
