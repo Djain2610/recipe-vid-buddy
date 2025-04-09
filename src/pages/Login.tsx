@@ -7,12 +7,16 @@ import { Label } from "@/components/ui/label";
 import { EyeIcon, EyeOffIcon, LockIcon, UserIcon } from "lucide-react";
 import { toast } from "sonner";
 import { useAuth } from "@/hooks/use-auth";
+import TermsOfServiceDialog from "@/components/TermsOfServiceDialog";
+import PrivacyPolicyDialog from "@/components/PrivacyPolicyDialog";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [termsDialogOpen, setTermsDialogOpen] = useState(false);
+  const [privacyDialogOpen, setPrivacyDialogOpen] = useState(false);
   const navigate = useNavigate();
   const { login } = useAuth();
 
@@ -119,16 +123,34 @@ const Login: React.FC = () => {
         <div className="text-center mt-8 text-sm text-muted-foreground">
           <p>
             By signing in, you agree to our{" "}
-            <a href="#" className="underline">
+            <button 
+              type="button"
+              onClick={() => setTermsDialogOpen(true)} 
+              className="text-primary hover:underline"
+            >
               Terms of Service
-            </a>{" "}
+            </button>{" "}
             and{" "}
-            <a href="#" className="underline">
+            <button 
+              type="button"
+              onClick={() => setPrivacyDialogOpen(true)} 
+              className="text-primary hover:underline"
+            >
               Privacy Policy
-            </a>
+            </button>
           </p>
         </div>
       </div>
+      
+      <TermsOfServiceDialog 
+        open={termsDialogOpen} 
+        onOpenChange={setTermsDialogOpen} 
+      />
+      
+      <PrivacyPolicyDialog 
+        open={privacyDialogOpen} 
+        onOpenChange={setPrivacyDialogOpen} 
+      />
     </div>
   );
 };

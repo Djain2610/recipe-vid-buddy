@@ -8,6 +8,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { EyeIcon, EyeOffIcon, LockIcon, UserIcon } from "lucide-react";
 import { toast } from "sonner";
 import { useAuth } from "@/hooks/use-auth";
+import TermsOfServiceDialog from "@/components/TermsOfServiceDialog";
+import PrivacyPolicyDialog from "@/components/PrivacyPolicyDialog";
 
 const Signup: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -16,6 +18,8 @@ const Signup: React.FC = () => {
   const [acceptTerms, setAcceptTerms] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [termsDialogOpen, setTermsDialogOpen] = useState(false);
+  const [privacyDialogOpen, setPrivacyDialogOpen] = useState(false);
   const navigate = useNavigate();
   const { signup } = useAuth();
 
@@ -140,13 +144,21 @@ const Signup: React.FC = () => {
               />
               <Label htmlFor="terms" className="text-sm">
                 I agree to the{" "}
-                <a href="#" className="text-primary hover:underline">
+                <button
+                  type="button"
+                  onClick={() => setTermsDialogOpen(true)}
+                  className="text-primary hover:underline"
+                >
                   Terms of Service
-                </a>{" "}
+                </button>{" "}
                 and{" "}
-                <a href="#" className="text-primary hover:underline">
+                <button
+                  type="button"
+                  onClick={() => setPrivacyDialogOpen(true)}
+                  className="text-primary hover:underline"
+                >
                   Privacy Policy
-                </a>
+                </button>
               </Label>
             </div>
             
@@ -165,6 +177,16 @@ const Signup: React.FC = () => {
           </div>
         </div>
       </div>
+      
+      <TermsOfServiceDialog 
+        open={termsDialogOpen} 
+        onOpenChange={setTermsDialogOpen} 
+      />
+      
+      <PrivacyPolicyDialog 
+        open={privacyDialogOpen} 
+        onOpenChange={setPrivacyDialogOpen} 
+      />
     </div>
   );
 };
