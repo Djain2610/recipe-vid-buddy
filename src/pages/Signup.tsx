@@ -64,7 +64,7 @@ const Signup: React.FC = () => {
         <div className="bg-background rounded-lg shadow-lg p-8 border">
           <div className="text-center mb-8">
             <Link to="/" className="inline-block">
-              <h1 className="text-2xl font-bold">RecipeVid</h1>
+              <h1 className="text-2xl font-bold">CHEFBOT</h1>
             </Link>
             <p className="text-muted-foreground mt-2">Create a new account</p>
           </div>

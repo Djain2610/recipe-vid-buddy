@@ -15,8 +15,3 @@ This project is built with CHEFBOT.
 - React
 - shadcn-ui
 - Tailwind CSS
-
-
-
-
-

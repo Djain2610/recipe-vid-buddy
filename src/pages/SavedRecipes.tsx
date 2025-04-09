@@ -98,7 +98,7 @@ const SavedRecipes: React.FC = () => {
         <div className="container max-w-7xl mx-auto px-4">
           <div className="flex justify-between items-center">
             <Link to="/" className="text-2xl font-semibold">
-              RecipeVid
+              CHEFBOT
             </Link>
             <Link to="/">
               <Button variant="outline" className="flex items-center gap-2">
@@ -222,7 +222,7 @@ const SavedRecipes: React.FC = () => {
 
       <footer className="bg-muted py-8 mt-8">
         <div className="container max-w-7xl mx-auto px-4 text-center text-muted-foreground">
-          <p>RecipeVid © {new Date().getFullYear()} • Find recipes with video tutorials</p>
+          <p>CHEFBOT © {new Date().getFullYear()} • Find recipes with video tutorials</p>
         </div>
       </footer>
 
